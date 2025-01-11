@@ -1,0 +1,274 @@
+{
+  "info": {
+    "_postman_id": "e8f23d9a-5b2b-4c3b-8d9e-1f2c3d4e5f6a",
+    "name": "E-commerce API",
+    "description": "API collection for the E-commerce platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "description": "User authentication endpoints",
+      "item": [
+        {
+          "name": "Register User",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/auth/signup",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password123\",\n    \"role\": \"customer\"\n}"
+            },
+            "description": "Register a new user (customer or admin)"
+          }
+        },
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/auth/login",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password123\",\n    \"role\": \"customer\"\n}"
+            },
+            "description": "Login user and get authentication token"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Categories",
+      "description": "Category management endpoints",
+      "item": [
+        {
+          "name": "Get All Categories",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/categories",
+            "description": "Get all categories (public)"
+          }
+        },
+        {
+          "name": "Create Category",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/categories",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Electronics\"\n}"
+            },
+            "description": "Create new category (admin only)"
+          }
+        },
+        {
+          "name": "Get Subcategories",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/categories/:categoryId/subcategories",
+            "description": "Get subcategories for a category"
+          }
+        },
+        {
+          "name": "Create Subcategory",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/categories/:categoryId/subcategories",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Smartphones\"\n}"
+            },
+            "description": "Create subcategory in a category (admin only)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Products",
+      "description": "Product management endpoints",
+      "item": [
+        {
+          "name": "Get All Products",
+          "request": {
+            "method": "GET",
+            "url": "{{baseUrl}}/api/products",
+            "description": "Get all products with optional filtering"
+          }
+        },
+        {
+          "name": "Create Product",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/products",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"iPhone 13\",\n    \"description\": \"Latest iPhone model\",\n    \"price\": 999.99,\n    \"imageUrl\": \"https://example.com/iphone13.jpg\",\n    \"stockQuantity\": 100,\n    \"subcategory\": \"subcategoryId\"\n}"
+            },
+            "description": "Create new product (admin only)"
+          }
+        },
+        {
+          "name": "Update Product",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/products/:id",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"price\": 899.99,\n    \"stockQuantity\": 50\n}"
+            },
+            "description": "Update product details (admin only)"
+          }
+        },
+        {
+          "name": "Delete Product",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/products/:id",
+            "description": "Delete product (admin only)"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Orders",
+      "description": "Order management endpoints",
+      "item": [
+        {
+          "name": "Create Order",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/orders",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"items\": [\n        {\n            \"product\": \"productId\",\n            \"quantity\": 1,\n            \"price\": 999.99\n        }\n    ],\n    \"shippingAddress\": \"123 Main St\",\n    \"city\": \"New York\",\n    \"postalCode\": \"10001\",\n    \"phone\": \"1234567890\",\n    \"total\": 999.99\n}"
+            },
+            "description": "Create new order (customer only)"
+          }
+        },
+        {
+          "name": "Get My Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/orders/my-orders",
+            "description": "Get logged in user's orders"
+          }
+        },
+        {
+          "name": "Get All Orders",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": "{{baseUrl}}/api/orders",
+            "description": "Get all orders (admin only)"
+          }
+        },
+        {
+          "name": "Update Order Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": "{{baseUrl}}/api/orders/:orderId/status",
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"processing\"\n}"
+            },
+            "description": "Update order status (admin only)"
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    }
+  ]
+} 
